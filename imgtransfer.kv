@@ -1,0 +1,80 @@
+<Container>:
+    input_img: input_img
+    output_img: output_img
+    input_img_box: input_img_box
+    output_img_box: output_img_box
+    slider_box: slider_box
+    save_button_box: save_button_box 
+    slider_label: slider_label
+    slider: slider
+
+    rows:5
+    padding:20
+
+    BoxLayout:
+        size_hint: 0.2, 0.05 
+        Button:
+            text: 'Загрузить изображение'
+            on_release: root.show_load()
+
+    BoxLayout:
+        id:input_img_box
+        size_hint: 1, 0.4 
+        opacity: 0
+        Image:
+            id: input_img
+            source: None
+            fit_mode: 'contain'
+
+    BoxLayout:
+        id:output_img_box
+        size_hint: 1, 0.4 
+        opacity: 0
+        Image:
+            id: output_img
+            source: None
+            fit_mode: 'contain'
+
+    BoxLayout:
+        id:slider_box
+        size_hint: 1, 0.1 
+        opacity: 0
+        orientation: 'vertical'
+        Slider:
+            id:slider
+            max:200
+            min:10
+            step:1
+            on_value: root.slide()
+        Label:
+            padding: 10
+            id:slider_label
+            text: ''
+
+    BoxLayout:
+        id:save_button_box
+        size_hint: 0.2, 0.05 
+        opacity: 0
+        Button:
+            text: 'Сохранить результат'
+            on_release: root.convert_to_box()
+
+
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserIconView:
+            id: filechooser
+            filters: ['*.png', '*.jpg', '*.jpeg', '*.bmp', '*.tiff', '*.gif']
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Отмена"
+                on_release: root.cancel()
+
+            Button:
+                text: "Загрузить"
+                on_release: root.load(filechooser.path, filechooser.selection)
